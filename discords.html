@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Wakfu Index</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100">
+
+  <!-- Header -->
+  <div class="flex justify-between p-6 items-center">
+    <h1 class="text-2xl font-bold">Wakfu Index</h1>
+  </div>
+  <div class="underline float-right -mt-12 mr-3 flex flex-col space-y-2 items-center">
+    <a href="./index.html" class="">Wakfu Indexer Sites/Outils</a>
+    <a href="./fandevs.html" class="">Wakfu Indexer Fandevs</a>
+  </div>
+  <div class = "p-7 items-center -mt-12">
+    <a href="./readme.html" class="underline">readme / info</a>
+  </div>
+
+  <!-- Search + Tags -->
+  <div class="flex flex-col items-center gap-6 mt-10 mb-10">
+    <h2 class="text-2xl font-bold text-center">Serveurs Discord</h2>
+    <!-- Search bar -->
+    <input 
+      id="searchInput" 
+      type="text" 
+      placeholder="Rechercher un site ou un outil..." 
+      class="px-5 py-2 rounded-full border border-gray-600 bg-gray-800 text-gray-100 w-full max-w-md text-center shadow-sm"
+    >
+    <!-- Tags -->
+    <div class="flex flex-wrap justify-center gap-3" id="tagFilter"></div>
+  </div>
+
+  <!-- Grid of discordserver -->
+  <main class="flex-grow pb-12">
+    <div id="grid" class="grid gap-8 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="fixed bottom-0 w-full p-2 text-center text-xs text-gray-400 border-t border-gray-700 bg-gray-900">
+    <a href="https://www.wakfu.com/fr/mmorpg" class="text-blue-400">WAKFU</a> est un MMORPG édité par Ankama. Ce site est un site non-officiel sans aucun lien avec Ankama. (même si on les aime fort !♥️)
+  </footer>
+
+
+  <!-- Script -->
+  <script>
+    // tags actuels : ### Officiel ### FR ### INT ### Pandora ### Ogrest ### Bêta ### Entraîde ### Commerce ### Guilde PvE ### Guilde PvP
+    //{ name: "", url:"", icon: "", tags: [""], description: ""},
+    const discordserveroffi = [
+    { name: "Discord Officiel Wakfu", url:"https://discord.com/invite/wakfu-573846884666572840", icon: "./discordico/wakfu.png", tags: ["Officiel","FR","INT","Pandora","Ogrest","Bêta","Entraide"], description: ""},
+    ];
+    let discordserverfan = [
+    { name: "Wakfu [FR]", url:"https://discord.com/invite/wakfu-fr-286187982170488832", icon: "./discordico/wakfu-fr.png", tags: ["FR","Pandora","Ogrest","Bêta","Entraide","Commerce"], description: ""},
+    ];
+    const discordserver = discordserveroffi.concat(discordserverfan.sort(() => Math.random() - 0.5))
+    const grid = document.getElementById("grid");
+    const tagFilter = document.getElementById("tagFilter");
+    const searchInput = document.getElementById("searchInput");
+
+    let selectedTag = null;
+    let searchTerm = "";
+
+    function renderSites() {
+      grid.innerHTML = "";
+      discordserver
+        .filter(site => 
+          (!selectedTag || site.tags.includes(selectedTag)) &&
+          (site.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        )
+        .forEach(site => {
+          const tile = document.createElement("a");
+          tile.href = site.url;
+          tile.target = "_blank";
+          tile.className = "relative group p-6 rounded-2xl shadow-md bg-gray-800 flex flex-col items-center hover:scale-105 transition";
+          const defaultimgpath = "./siteico/default.png"
+          // No tooltips for discords
+          tile.innerHTML = `
+            <div class="flex flex-col items-center flex-grow">
+              <img src="${site.icon}"  onerror="this.onerror=null; this.src='${defaultimgpath}';" alt="${site.name}" class="w-16 h-16 mb-3 rounded-full">
+              <span class="font-semibold">${site.name}</span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-1 mt-4 -mb-4">
+              ${site.tags.map(tag => `<span class="px-2 py-0.5 text-xs rounded-full bg-gray-700 text-white">${tag}</span>`).join('')}
+            </div>
+            <!--
+            <div class="absolute ml-2 top-1/2 -translate-y-1/2 px-3 py-1 rounded-lg bg-gray-500 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity max-w-xs text-center"
+              style="transition-delay: 0.75s;">
+              ${site.description}
+            </div>
+            -->
+          `;
+
+          grid.appendChild(tile);
+        });
+    }
+
+
+    // Render tag filters
+    const tags = [...new Set(discordserver.flatMap(s => s.tags))].sort();
+    tags.forEach(tag => {
+      const btn = document.createElement("button");
+      btn.textContent = tag;
+      btn.className = "px-4 py-1.5 rounded-full bg-gray-700 transition";
+      btn.onclick = () => {
+        if (selectedTag === tag) {
+          selectedTag = null;
+          btn.classList.remove("bg-gray-400", "text-white");
+          btn.classList.add("bg-gray-700");
+        } else {
+          [...tagFilter.children].forEach(b => {
+            b.classList.remove("bg-gray-400", "text-white");
+            b.classList.add("bg-gray-700");
+          });
+          selectedTag = tag;
+          btn.classList.remove("bg-gray-700");
+          btn.classList.add("bg-gray-400", "text-white");
+        }
+        renderSites();
+      };
+      tagFilter.appendChild(btn);
+    });
+
+    // Search input
+    searchInput.addEventListener("input", (e) => {
+      searchTerm = e.target.value;
+      renderSites();
+    });
+    // Initial render
+    renderSites();
+  </script>
+</body>
+</html>

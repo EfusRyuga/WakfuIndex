@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Wakfu Index</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>.perspective {perspective:1000px;}.preserve-3d {transform-style: preserve-3d;}.backface-hidden {backface-visibility: hidden;}.rotate-y-180 {transform: rotateY(180deg);}.flipped .preserve-3d {transform: rotateY(180deg);}</style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+
+  <!-- Header -->
+  <div class="flex justify-between p-6 items-center">
+    <h1 class="text-2xl font-bold">Wakfu Index</h1>
+  </div>
+  <div class="underline float-right -mt-12 mr-3 flex flex-col space-y-2 items-center">
+    <a href="./index.html" class="">Wakfu Indexer Sites/Outils</a>
+    <a href="./discords.html" class="">Wakfu Indexer Discord</a>
+  </div>
+  <div class = "p-7 items-center -mt-12">
+    <a href="./readme.html" class="underline">readme / info</a>
+  </div>
+
+  <!-- Search + Tags -->
+  <div class="flex flex-col items-center gap-6 mt-10 mb-10">
+    <h2 class="text-2xl font-bold text-center">Fandevs et contacts</h2>
+    <!-- Search bar -->
+    <input 
+      id="searchInput" 
+      type="text" 
+      placeholder="Rechercher un fandev" 
+      class="px-5 py-2 rounded-full border border-gray-600 bg-gray-800 text-gray-100 w-full max-w-md text-center shadow-sm"
+    >
+    <!-- Tags -->
+    <div class="flex flex-wrap justify-center gap-3" id="tagFilter"></div>
+  </div>
+
+  <!-- Grid of fandev -->
+  <main class="flex-grow pb-12">
+    <div id="grid" class="grid gap-8 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="fixed bottom-0 w-full p-2 text-center text-xs text-gray-400 border-t border-gray-700 bg-gray-900">
+    <a href="https://www.wakfu.com/fr/mmorpg" class="text-blue-400">WAKFU</a> est un MMORPG édité par Ankama. Ce site est un site non-officiel sans aucun lien avec Ankama. (même si on les aime fort !♥️)
+  </footer>
+
+
+  <!-- Script -->
+  <script>
+    // tags actuels : osef c'est pour les fandevs go for fun
+    //{ name: "",icon: "", tags: [""], description: "",discordusername:"",discordserver:"",twitter:"",github:"",gitlab:"",tipe:"",kofi:""},
+    let fandev = [
+    { name: "Efus",icon: "./pp/efus.png", tags: ["Indexer fou","Fandev du dimanche"], description: "Salut !</br>Je suis le fandev à la base de ce projet et de quelques autres petits projets de temps à autre.",discordusername:"efus_ryuga",discordserver:"",twitter:"Fandev Wakfu",github:"https://github.com/EfusRyuga",gitlab:"",tipe:"",kofi:""},
+
+
+  ];
+    fandev = fandev.sort(() => Math.random() - 0.5)
+    const grid = document.getElementById("grid");
+    const tagFilter = document.getElementById("tagFilter");
+    const searchInput = document.getElementById("searchInput");
+
+    let selectedTag = null;
+    let searchTerm = "";
+
+    function renderSites() {
+      grid.innerHTML = "";
+      fandev
+        .filter(fandevs => 
+          (!selectedTag || fandevs.tags.includes(selectedTag)) &&
+          (fandevs.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        )
+        .forEach(fandevs => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "perspective w-full h-56 cursor-pointer hover:scale-100 transition-transform duration-300"; // hover to review, le scaling est bien bien naze et rend tout flou :x
+          const defaultimgpath = "./fandevsico/default.png";
+
+          wrapper.innerHTML = `
+            <div class="relative preserve-3d duration-500 w-full h-full rounded-2xl group-[.flipped]:rotate-y-180">
+              <!-- Front -->
+              <div class="absolute backface-hidden w-full h-full p-6 rounded-2xl shadow-md bg-gray-800 flex flex-col items-center justify-between transition">
+                <div class="flex flex-col items-center flex-grow">
+                  <img src="${fandevs.icon}" onerror="this.onerror=null; this.src='${defaultimgpath}';" 
+                       alt="${fandevs.name}" class="w-16 h-16 mt-5 rounded-full">
+                  <span class="font-semibold">${fandevs.name}</span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-1 mt-4">
+                  ${fandevs.tags.map(tag => `<span class="px-2 py-0.5 text-xs rounded-full bg-gray-700 text-white">${tag}</span>`).join('')}
+                </div>
+              </div>
+              <!-- Back -->
+            <div class="absolute w-full h-full p-6 rounded-2xl shadow-md bg-gray-700 flex flex-col items-center justify-center text-white text-sm text-center backface-hidden transition-transform"
+              style="backface-visibility: hidden; transform: rotateY(180deg);">
+            <p class="mb-4">${fandevs.description || "Pas de description"}</p>
+            <div class="flex gap-4 mt-5 -mb-12">
+              ${fandevs.discordserver ? `
+                <div class="relative group">
+                  <a href="${fandevs.discordserver}" target="_blank" class="relative z-10">
+                    <img src="./icodiv/discordserver.png" alt="Discord" class="w-8 h-6 hover:scale-150 transition-transform mx-auto">
+                    <span class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-500 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-20 w-60">
+                      Un discord existe pour ce fandev, clique pour le rejoindre !
+                    </span>
+                    <figcaption>${fandevs.discordusername ? `<p>${fandevs.discordusername}</p>` : ""}</figcaption>
+                  </a>
+                </div>
+              ` : ""}
+              ${(fandevs.discordusername && !fandevs.discordserver)? `
+                <div class="relative group">
+                  <a href="${fandevs.discordserver}" target="_blank" class="relative z-10">
+                    <img src="./icodiv/nodiscordserver.png" alt="Discord" class="w-8 h-6 transition-transform mx-auto">
+                    <span class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-500 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-20 w-60">
+                      Aucun serveur discord n'existe pour ce fandev cependant vous pouvez le mp car il a laissé son pseudo
+                    </span>
+                    <figcaption>${fandevs.discordusername ? `<p>${fandevs.discordusername}</p>` : ""}</figcaption>
+                  </a>
+                </div>
+              ` : ""}
+              ${fandevs.twitter ? `<a href="${fandevs.twitter}" target="_blank"><img src="./icodiv/x.png" alt="Twitter/x" class="w-6 h-6 hover:scale-150 transition-transform"></a>` : ""}
+              ${fandevs.github ? `<a href="${fandevs.github}" target="_blank"><img src="./icodiv/github.png" alt="github" class="w-6 h-6 hover:scale-150 transition-transform"></a>` : ""}
+              ${fandevs.gitlab ? `<a href="${fandevs.gitlab}" target="_blank"><img src="./icodiv/gitlab.png" alt="gitlab" class="w-6 h-6 hover:scale-150 transition-transform"></a>` : ""}
+              ${fandevs.tipee ? `<a href="${fandevs.tipee}" target="_blank"><img src="./icodiv/tipee.svg" alt="tipee" class="w-6 h-6 hover:scale-150 transition-transform"></a>` : ""}
+              ${fandevs.kofi ? `<a href="${fandevs.kofi}" target="_blank"><img src="./icodiv/kofi.png" alt="kofi" class="w-6 h-6 hover:scale-150 transition-transform"></a>` : ""}
+
+            </div>
+          </div>
+
+            </div>
+
+            </div>
+          `;
+
+          // Flip on click
+          wrapper.addEventListener("click", () => {
+                wrapper.classList.toggle("flipped");
+            });
+          // Prevent child links from flipping the tile
+          wrapper.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", (e) => {
+              e.stopPropagation(); // Only click the link, don't flip the tile
+            });
+          });
+          
+          grid.appendChild(wrapper);
+        });
+    }
+
+
+    // Render tag filters
+    const tags = [...new Set(fandev.flatMap(s => s.tags))].sort();
+    tags.forEach(tag => {
+      const btn = document.createElement("button");
+      btn.textContent = tag;
+      btn.className = "px-4 py-1.5 rounded-full bg-gray-700 transition";
+      btn.onclick = () => {
+        if (selectedTag === tag) {
+          selectedTag = null;
+          btn.classList.remove("bg-gray-400", "text-white");
+          btn.classList.add("bg-gray-700");
+        } else {
+          [...tagFilter.children].forEach(b => {
+            b.classList.remove("bg-gray-400", "text-white");
+            b.classList.add("bg-gray-700");
+          });
+          selectedTag = tag;
+          btn.classList.remove("bg-gray-700");
+          btn.classList.add("bg-gray-400", "text-white");
+        }
+        renderSites();
+      };
+      tagFilter.appendChild(btn);
+    });
+
+    // Search input
+    searchInput.addEventListener("input", (e) => {
+      searchTerm = e.target.value;
+      renderSites();
+    });
+    // Initial render
+    renderSites();
+  </script>
+</body>
+</html>
