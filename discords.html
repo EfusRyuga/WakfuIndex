@@ -47,14 +47,16 @@
 
   <!-- Script -->
   <script>
-    // tags actuels : ### Officiel ### FR ### INT ### Pandora ### Ogrest ### Bêta ### Entraîde ### Commerce ### Guilde PvE ### Guilde PvP
+    // tags actuels : ### Officiel ### FR ### INT ### Pandora ### Ogrest ### Bêta ### Entraide ### Commerce ### Guilde PvE ### Guilde PvP ### Streamer ###
     //{ name: "", url:"", icon: "", tags: [""]},
     const discordserveroffi = [
     { name: "Discord Officiel Wakfu", url:"https://discord.com/invite/wakfu-573846884666572840", icon: "./discordico/wakfu.png", tags: ["Officiel","FR","INT","Pandora","Ogrest","Bêta","Entraide"]},
     ];
     let discordserverfan = [
     { name: "Wakfu [FR]", url:"https://discord.com/invite/wakfu-fr-286187982170488832", icon: "./discordico/wakfu-fr.png", tags: ["FR","Pandora","Ogrest","Bêta","Entraide","Commerce"]},
-    ];
+    { name: "Ymoka", url:"https://discord.gg/ymoka", icon: "./discordico/ymoka.png", tags: ["Streamer","Entraide","Commerce","FR","INT"]},
+    { name: "Ittle'Cord", url:"https://discord.gg/6agJQvHDmJ", icon: "./discordico/ittle.png", tags: ["Streamer","FR","Entraide"]},  
+  ];
     const discordserver = discordserveroffi.concat(discordserverfan.sort(() => Math.random() - 0.5))
     const grid = document.getElementById("grid");
     const tagFilter = document.getElementById("tagFilter");
