@@ -51,9 +51,9 @@
     // tags actuels : osef c'est pour les fandevs go for fun
     //{ name: "",icon: "", tags: [""], description: "",discordusername:"",discordserver:"",twitter:"",github:"",gitlab:"",tipeee:"",kofi:""},
     let fandev = [
-    { name: "Efus",icon: "./pp/efus.png", tags: ["Indexer fou","Fandev du dimanche"], description: "Salut !</br>Je suis le fandev à la base de ce projet et de quelques autres petits projets de temps à autre.",discordusername:"efus_ryuga",discordserver:"",twitter:"Fandev Wakfu",github:"https://github.com/EfusRyuga",gitlab:"",tipeee:"",kofi:""},
+    { name: "Efus",icon: "./pp/efus.png", tags: ["Indexer fou","Fandev du dimanche"], description: "Salut !</br>Je suis le fandev à la base de ce projet et de quelques autres petits projets de temps à autre.",discordusername:"efus_ryuga",discordserver:"",twitter:"https://x.com/EfusRyuga",github:"https://github.com/EfusRyuga",gitlab:"",tipeee:"",kofi:""},
     { name: "Liro",icon: "./pp/liro.jpg", tags: ["Steamer rouillé", "Matheux"], description: "Création de différents Google Sheets pour la documentation de données collectées et de tests effectués, auteur sur MethodWakfu.",discordusername:"liro_p",discordserver:"https://discord.com/invite/83vH2ZZUQY",twitter:"",github:"",gitlab:"",tipeee:"",kofi:""},
-    { name: "Mathius", icon: "./pp/mathius.png", tags: ["Xélor Mal Remonté", "Accumulateur de WIP", "Open-Source", "Waklab"], description: "Linuxien qui fait des tools dans des languages plus ou moins obscurs en prônant l'open-source. A toujours trop de projets en cours et ses tools sont souvent en rapport avec l'artisanat sur le jeu. Actuellement il s'occupe de Waktisanat, Craftkfu et wakfu-theme-viewer à travers Waklab. Il sortira peut-être son API Wakdata un jour...", discordusername:"mathiusd", discordserver:"https://discord.com/invite/9sjdyspDdf", twitter: "MathiusDelta", github: "MathiusD", gitlab: "MathiusD", tipeee: "", kofi: "mathiusd" },
+    { name: "Mathius", icon: "./pp/mathius.png", tags: ["Xélor Mal Remonté", "Accumulateur de WIP", "Open-Source", "Waklab"], description: "Linuxien qui fait des tools dans des languages plus ou moins obscurs en prônant l'open-source. A toujours trop de projets en cours et ses tools sont souvent en rapport avec l'artisanat sur le jeu. Actuellement il s'occupe de Waktisanat, Craftkfu et wakfu-theme-viewer à travers Waklab. Il sortira peut-être son API Wakdata un jour...", discordusername:"mathiusd", discordserver:"https://discord.com/invite/9sjdyspDdf", twitter: "https://x.com/MathiusDelta", github: "https://github.com/MathiusD", gitlab: "https://gitlab.com/MathiusD", tipeee: "", kofi: "https://ko-fi.com//mathiusd" },
 
   ];
     fandev = fandev.sort(() => Math.random() - 0.5)
@@ -82,7 +82,7 @@
               <div class="absolute backface-hidden w-full h-full p-6 rounded-2xl shadow-md bg-gray-800 flex flex-col items-center justify-between transition">
                 <div class="flex flex-col items-center flex-grow">
                   <img src="${fandevs.icon}" onerror="this.onerror=null; this.src='${defaultimgpath}';" 
-                       alt="${fandevs.name}" class="w-16 h-16 mt-5 rounded-full">
+                    alt="${fandevs.name}" class="w-16 h-16 mt-5 rounded-full">
                   <span class="font-semibold">${fandevs.name}</span>
                 </div>
                 <div class="flex flex-wrap justify-center gap-1 mt-4">
